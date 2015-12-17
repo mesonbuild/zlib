@@ -1,13 +1,9 @@
-project('zlib', 'c')
+project('zlib', 'c', version : '1.2.8', license : 'zlib')
 
 src = ['adler32.c', 'crc32.c', 'deflate.c', 'infback.c', 'inffast.c', 'inflate.c',
 'inftrees.c', 'trees.c', 'zutil.c',
 'compress.c', 'uncompr.c', 'gzclose.c', 'gzlib.c', 'gzread.c', 'gzwrite.c']
 
-if get_option('shared_lib')
-  zlib = shared_library('z', src)
-else
-  zlib = static_library('z', src)
-endif
+zlib = library('z', src)
 
 incdir = include_directories('.')
