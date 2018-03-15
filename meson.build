@@ -25,6 +25,8 @@ src = files([
   'gzread.c',
   'gzwrite.c'])
 
+headers = files(['zconf.h', 'zlib.h'])
+
 zlib = library('z', src,
   link_args : link_args,
   install : true)
@@ -34,3 +36,11 @@ incdir = include_directories('.')
 zlib_dep = declare_dependency(
   link_with : zlib,
   include_directories : incdir)
+
+install_headers(headers)
+
+pkg = import('pkgconfig')
+
+pkg.generate(name: 'zlib',
+             description: 'zlib compression library',
+             libraries: zlib)
