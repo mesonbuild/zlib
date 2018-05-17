@@ -1,0 +1,6 @@
+option(
+  'asm',
+  type : 'boolean',
+  value : false,
+  description : 'Use assembly if there is an implementation for the host.',
+)
