@@ -38,6 +38,7 @@ endif
 
 zlib = library('z', src,
   link_args : link_args,
+  vs_module_defs : 'win32/zlib.def',
   install : true)
 
 incdir = include_directories('.')
