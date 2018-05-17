@@ -26,7 +26,11 @@ if host_machine.system() == 'windows'
   src += win.compile_resources('win32/zlib1.rc', args : win_args)
 endif
 
-zlib = library('z', src)
+zlib = library(
+  'z',
+  src,
+  vs_module_defs : 'win32/zlib.def',
+)
 
 incdir = include_directories('.')
 
