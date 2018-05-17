@@ -1,5 +1,13 @@
 project('zlib', 'c', version : '1.2.11', license : 'zlib')
 
+cc = meson.get_compiler('c')
+if cc.get_id() == 'msvc'
+  add_project_arguments(
+    '-D_CRT_SECURE_NO_DEPREACATE', '-D_CRT_NONSTDC_NO_DEPRECATE',
+    language : ['c']
+  )
+endif
+
 src = files([
   'adler32.c',
   'crc32.c',
