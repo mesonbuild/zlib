@@ -17,6 +17,15 @@ src = files([
   'gzread.c',
   'gzwrite.c'])
 
+if host_machine.system() == 'windows'
+  win = import('windows')
+  win_args = []
+  if cc.get_id() != 'msvc'
+    win_args += '-DGCC_WINDRES'
+  endif
+  src += win.compile_resources('win32/zlib1.rc', args : win_args)
+endif
+
 zlib = library('z', src)
 
 incdir = include_directories('.')
