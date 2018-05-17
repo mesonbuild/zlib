@@ -27,6 +27,15 @@ src = files([
 
 headers = files(['zconf.h', 'zlib.h'])
 
+if host_machine.system() == 'windows'
+  win = import('windows')
+  win_args = []
+  if cc.get_id() != 'msvc'
+    win_args += '-DGCC_WINDRES'
+  endif
+  src += win.compile_resources('win32/zlib1.rc', args : win_args)
+endif
+
 zlib = library('z', src,
   link_args : link_args,
   install : true)
