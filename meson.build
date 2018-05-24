@@ -6,9 +6,15 @@ link_args = []
 if cc.get_id() == 'msvc'
   add_project_arguments('-D_CRT_SECURE_NO_DEPRECATE',
     '-D_CRT_NONSTDC_NO_DEPRECATE', language : 'c')
-elif cc.get_id() == 'gcc' and host_machine.system() != 'windows'
-  vflag = '-Wl,--version-script,@0@/zlib.map'.format(meson.current_source_dir())
-  link_args += [vflag]
+else
+  # Don't spam consumers of this wrap with these warnings
+  args = cc.get_supported_arguments(['-Wno-implicit-fallthrough',
+                                     '-Wno-implicit-function-declaration'])
+  add_project_arguments(args, language : 'c')
+  if cc.get_id() == 'gcc' and host_machine.system() != 'windows'
+    vflag = '-Wl,--version-script,@0@/zlib.map'.format(meson.current_source_dir())
+    link_args += [vflag]
+  endif
 endif
 
 src = files([
