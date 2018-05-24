@@ -3,14 +3,14 @@ project('zlib', 'c', version : '1.2.11', license : 'zlib')
 cc = meson.get_compiler('c')
 
 link_args = []
+compile_args = []
 if cc.get_id() == 'msvc'
   add_project_arguments('-D_CRT_SECURE_NO_DEPRECATE',
     '-D_CRT_NONSTDC_NO_DEPRECATE', language : 'c')
 else
   # Don't spam consumers of this wrap with these warnings
-  args = cc.get_supported_arguments(['-Wno-implicit-fallthrough',
-                                     '-Wno-implicit-function-declaration'])
-  add_project_arguments(args, language : 'c')
+  compile_args += cc.get_supported_arguments(['-Wno-implicit-fallthrough',
+                                              '-Wno-implicit-function-declaration'])
   if cc.get_id() == 'gcc' and host_machine.system() != 'windows'
     vflag = '-Wl,--version-script,@0@/zlib.map'.format(meson.current_source_dir())
     link_args += [vflag]
@@ -45,9 +45,8 @@ if host_machine.system() == 'windows'
   src += win.compile_resources('win32/zlib1.rc', args : win_args)
 endif
 
-compile_args = []
 if get_option('solo')
-  compile_args = ['-DZ_SOLO']
+  compile_args += ['-DZ_SOLO']
 endif
 
 zlib = library('z', src,
