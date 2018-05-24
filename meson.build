@@ -45,7 +45,13 @@ if host_machine.system() == 'windows'
   src += win.compile_resources('win32/zlib1.rc', args : win_args)
 endif
 
+compile_args = []
+if get_option('solo')
+  compile_args = ['-DZ_SOLO']
+endif
+
 zlib = library('z', src,
+  c_args : compile_args,
   link_args : link_args,
   vs_module_defs : 'win32/zlib.def',
   install : true)
