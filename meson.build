@@ -6,7 +6,8 @@ link_args = []
 compile_args = []
 if cc.get_id() == 'msvc'
   add_project_arguments('-D_CRT_SECURE_NO_DEPRECATE',
-    '-D_CRT_NONSTDC_NO_DEPRECATE', language : 'c')
+    '-D_CRT_NONSTDC_NO_DEPRECATE',
+    '/wd4131', '/wd4244', '/wd4127', '/wd4245', '/wd4267', language : 'c')
 else
   # Don't spam consumers of this wrap with these warnings
   compile_args += cc.get_supported_arguments(['-Wno-implicit-fallthrough',
